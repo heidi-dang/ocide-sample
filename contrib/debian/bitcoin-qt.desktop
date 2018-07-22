@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=OCIDE Core
+Comment=Connect to the OCIDE P2P Network
+Comment[de]=Verbinde mit dem OCIDE peer-to-peer Netzwerk
+Comment[fr]=OCIDE, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=OCIDE, eşten eşe kriptografik sanal para birimi
+Exec=ocide-qt %u
+Terminal=false
+Type=Application
+Icon=ocide128
+MimeType=x-scheme-handler/ocide;
+Categories=Office;Finance;P2P;Network;Qt;
+StartupWMClass=OCIDE-qt

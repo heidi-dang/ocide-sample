@@ -1,0 +1,6 @@
+usr/local/bin/ocide-qt usr/bin
+share/pixmaps/ocide32.xpm usr/share/pixmaps
+share/pixmaps/ocide16.xpm usr/share/pixmaps
+share/pixmaps/ocide128.png usr/share/pixmaps
+debian/ocide-qt.desktop usr/share/applications
+debian/ocide-qt.protocol usr/share/kde4/services/

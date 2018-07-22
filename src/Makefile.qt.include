@@ -1,0 +1,568 @@
+bin_PROGRAMS += qt/ocide-qt
+EXTRA_LIBRARIES += qt/libocideqt.a
+
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+# ocide qt core #
+QT_TS = \
+  qt/locale/ocide_bg.ts \
+  qt/locale/ocide_de.ts \
+  qt/locale/ocide_en.ts \
+  qt/locale/ocide_es.ts \
+  qt/locale/ocide_fi.ts \
+  qt/locale/ocide_fr.ts \
+  qt/locale/ocide_it.ts \
+  qt/locale/ocide_ja.ts \
+  qt/locale/ocide_pl.ts \
+  qt/locale/ocide_pt.ts \
+  qt/locale/ocide_ru.ts \
+  qt/locale/ocide_sk.ts \
+  qt/locale/ocide_sv.ts \
+  qt/locale/ocide_vi.ts \
+  qt/locale/ocide_zh_CN.ts \
+  qt/locale/ocide_zh_TW.ts
+
+QT_FORMS_UI = \
+  qt/forms/addressbookpage.ui \
+  qt/forms/askpassphrasedialog.ui \
+  qt/forms/coincontroldialog.ui \
+  qt/forms/editaddressdialog.ui \
+  qt/forms/helpmessagedialog.ui \
+  qt/forms/intro.ui \
+  qt/forms/modaloverlay.ui \
+  qt/forms/masternodelist.ui \
+  qt/forms/openuridialog.ui \
+  qt/forms/optionsdialog.ui \
+  qt/forms/overviewpage.ui \
+  qt/forms/receivecoinsdialog.ui \
+  qt/forms/receiverequestdialog.ui \
+  qt/forms/debugwindow.ui \
+  qt/forms/sendcoinsdialog.ui \
+  qt/forms/sendcoinsentry.ui \
+  qt/forms/signverifymessagedialog.ui \
+  qt/forms/transactiondescdialog.ui \
+  qt/forms/transactionsdialog.ui \
+  qt/forms/spospage.ui
+
+QT_MOC_CPP = \
+  qt/moc_addressbookpage.cpp \
+  qt/moc_addresstablemodel.cpp \
+  qt/moc_askpassphrasedialog.cpp \
+  qt/moc_bantablemodel.cpp \
+  qt/moc_bitcoinaddressvalidator.cpp \
+  qt/moc_bitcoinamountfield.cpp \
+  qt/moc_bitcoingui.cpp \
+  qt/moc_bitcoinunits.cpp \
+  qt/moc_clientmodel.cpp \
+  qt/moc_clickablelabel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_csvmodelwriter.cpp \
+  qt/moc_editaddressdialog.cpp \
+  qt/moc_guiutil.cpp \
+  qt/moc_intro.cpp \
+  qt/moc_macdockiconhandler.cpp \
+  qt/moc_macnotificationhandler.cpp \
+  qt/moc_modaloverlay.cpp \
+  qt/moc_masternodelist.cpp \
+  qt/moc_notificator.cpp \
+  qt/moc_openuridialog.cpp \
+  qt/moc_optionsdialog.cpp \
+  qt/moc_optionsmodel.cpp \
+  qt/moc_overviewpage.cpp \
+  qt/moc_peertablemodel.cpp \
+  qt/moc_paymentserver.cpp \
+  qt/moc_qvalidatedlineedit.cpp \
+  qt/moc_qvaluecombobox.cpp \
+  qt/moc_receivecoinsdialog.cpp \
+  qt/moc_receiverequestdialog.cpp \
+  qt/moc_recentrequeststablemodel.cpp \
+  qt/moc_rpcconsole.cpp \
+  qt/moc_sendcoinsdialog.cpp \
+  qt/moc_sendcoinsentry.cpp \
+  qt/moc_signverifymessagedialog.cpp \
+  qt/moc_splashscreen.cpp \
+  qt/moc_trafficgraphwidget.cpp \
+  qt/moc_transactiondesc.cpp \
+  qt/moc_transactionsdialog.cpp \
+  qt/moc_transactiondescdialog.cpp \
+  qt/moc_transactionfilterproxy.cpp \
+  qt/moc_transactiontablemodel.cpp \
+  qt/moc_transactionview.cpp \
+  qt/moc_utilitydialog.cpp \
+  qt/moc_walletframe.cpp \
+  qt/moc_walletmodel.cpp \
+  qt/moc_walletview.cpp \
+  qt/moc_sposaddressestablemodel.cpp \
+  qt/moc_spospage.cpp
+
+BITCOIN_MM = \
+  qt/macdockiconhandler.mm \
+  qt/macnotificationhandler.mm
+
+QT_MOC = \
+  qt/ocide.moc \
+  qt/bitcoinamountfield.moc \
+  qt/intro.moc \
+  qt/overviewpage.moc \
+  qt/rpcconsole.moc
+
+QT_QRC_CPP = qt/qrc_ocide.cpp
+QT_QRC = qt/ocide.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_ocide_locale.cpp
+QT_QRC_LOCALE = qt/ocide_locale.qrc
+
+PROTOBUF_CC = qt/paymentrequest.pb.cc
+PROTOBUF_H = qt/paymentrequest.pb.h
+PROTOBUF_PROTO = qt/paymentrequest.proto
+
+BITCOIN_QT_H = \
+  qt/addressbookpage.h \
+  qt/addresstablemodel.h \
+  qt/askpassphrasedialog.h \
+  qt/bantablemodel.h \
+  qt/bitcoinaddressvalidator.h \
+  qt/bitcoinamountfield.h \
+  qt/bitcoingui.h \
+  qt/bitcoinunits.h \
+  qt/clientmodel.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
+  qt/csvmodelwriter.h \
+  qt/clickablelabel.h \
+  qt/editaddressdialog.h \
+  qt/guiconstants.h \
+  qt/guiutil.h \
+  qt/intro.h \
+  qt/macdockiconhandler.h \
+  qt/macnotificationhandler.h \
+  qt/modaloverlay.h \
+  qt/masternodelist.h \
+  qt/networkstyle.h \
+  qt/notificator.h \
+  qt/openuridialog.h \
+  qt/optionsdialog.h \
+  qt/optionsmodel.h \
+  qt/overviewpage.h \
+  qt/paymentrequestplus.h \
+  qt/paymentserver.h \
+  qt/peertablemodel.h \
+  qt/platformstyle.h \
+  qt/qvalidatedlineedit.h \
+  qt/qvaluecombobox.h \
+  qt/receivecoinsdialog.h \
+  qt/receiverequestdialog.h \
+  qt/recentrequeststablemodel.h \
+  qt/rpcconsole.h \
+  qt/sendcoinsdialog.h \
+  qt/sendcoinsentry.h \
+  qt/signverifymessagedialog.h \
+  qt/splashscreen.h \
+  qt/trafficgraphdata.h \
+  qt/trafficgraphwidget.h \
+  qt/transactiondesc.h \
+  qt/transactionsdialog.h \
+  qt/sposaddressestablemodel.h \
+  qt/spospage.h \
+  qt/transactiondescdialog.h \
+  qt/transactionfilterproxy.h \
+  qt/transactionrecord.h \
+  qt/transactiontablemodel.h \
+  qt/transactionview.h \
+  qt/utilitydialog.h \
+  qt/walletframe.h \
+  qt/walletmodel.h \
+  qt/walletmodeltransaction.h \
+  qt/walletview.h \
+  qt/winshutdownmonitor.h
+
+RES_ICONS = \
+  qt/res/icons/ocide.ico \
+  qt/res/icons/ocide.png \
+  qt/res/icons/chevron.png \
+  qt/res/icons/warning.png \
+  qt/res/icons/light/address-book.png \
+  qt/res/icons/light/quit.png \
+  qt/res/icons/light/send.png \
+  qt/res/icons/light/connect0_16.png \
+  qt/res/icons/light/connect1_16.png \
+  qt/res/icons/light/connect2_16.png \
+  qt/res/icons/light/connect3_16.png \
+  qt/res/icons/light/connect4_16.png \
+  qt/res/icons/light/transaction0.png \
+  qt/res/icons/light/transaction2.png \
+  qt/res/icons/light/transaction_conflicted.png \
+  qt/res/icons/light/clock1.png \
+  qt/res/icons/light/clock2.png \
+  qt/res/icons/light/clock3.png \
+  qt/res/icons/light/clock4.png \
+  qt/res/icons/light/clock5.png \
+  qt/res/icons/light/eye.png \
+  qt/res/icons/light/eye_minus.png \
+  qt/res/icons/light/eye_plus.png \
+  qt/res/icons/light/configure.png \
+  qt/res/icons/light/receive.png \
+  qt/res/icons/light/editpaste.png \
+  qt/res/icons/light/editcopy.png \
+  qt/res/icons/light/add.png \
+  qt/res/icons/light/edit.png \
+  qt/res/icons/light/history.png \
+  qt/res/icons/light/masternodes.png \
+  qt/res/icons/light/overview.png \
+  qt/res/icons/light/export.png \
+  qt/res/icons/light/synced.png \
+  qt/res/icons/light/remove.png \
+  qt/res/icons/light/tx_mined.png \
+  qt/res/icons/light/tx_input.png \
+  qt/res/icons/light/tx_output.png \
+  qt/res/icons/light/tx_inout.png \
+  qt/res/icons/light/lock_closed.png \
+  qt/res/icons/light/lock_open.png \
+  qt/res/icons/light/key.png \
+  qt/res/icons/light/filesave.png \
+  qt/res/icons/light/debugwindow.png \
+  qt/res/icons/light/drkblue_editpaste.png \
+  qt/res/icons/light/drkblue_address-book.png \
+  qt/res/icons/light/drkblue_editcopy.png \
+  qt/res/icons/light/drkblue_remove.png \
+  qt/res/icons/light/browse.png \
+  qt/res/icons/light/about.png \
+  qt/res/icons/light/about_qt.png \
+  qt/res/icons/light/verify.png \
+  qt/res/icons/light/hd_enabled.png \
+  qt/res/icons/light/hd_disabled.png \
+  qt/res/icons/light/fontbigger.png \
+  qt/res/icons/light/fontsmaller.png \
+  qt/res/icons/light/transaction_abandoned.png \
+  qt/res/icons/light/network_disabled.png \
+  qt/res/icons/light/staking_active.png \
+  qt/res/icons/light/staking_inactive.png \
+  qt/res/icons/dark/address-book.png \
+  qt/res/icons/dark/quit.png \
+  qt/res/icons/dark/send.png \
+  qt/res/icons/dark/connect0_16.png \
+  qt/res/icons/dark/connect1_16.png \
+  qt/res/icons/dark/connect2_16.png \
+  qt/res/icons/dark/connect3_16.png \
+  qt/res/icons/dark/connect4_16.png \
+  qt/res/icons/dark/transaction0.png \
+  qt/res/icons/dark/transaction2.png \
+  qt/res/icons/dark/transaction_conflicted.png \
+  qt/res/icons/dark/clock1.png \
+  qt/res/icons/dark/clock2.png \
+  qt/res/icons/dark/clock3.png \
+  qt/res/icons/dark/clock4.png \
+  qt/res/icons/dark/clock5.png \
+  qt/res/icons/dark/eye.png \
+  qt/res/icons/dark/eye_minus.png \
+  qt/res/icons/dark/eye_plus.png \
+  qt/res/icons/dark/configure.png \
+  qt/res/icons/dark/receive.png \
+  qt/res/icons/dark/editpaste.png \
+  qt/res/icons/dark/editcopy.png \
+  qt/res/icons/dark/add.png \
+  qt/res/icons/dark/edit.png \
+  qt/res/icons/dark/history.png \
+  qt/res/icons/dark/masternodes.png \
+  qt/res/icons/dark/overview.png \
+  qt/res/icons/dark/export.png \
+  qt/res/icons/dark/synced.png \
+  qt/res/icons/dark/remove.png \
+  qt/res/icons/dark/tx_mined.png \
+  qt/res/icons/dark/tx_input.png \
+  qt/res/icons/dark/tx_output.png \
+  qt/res/icons/dark/tx_inout.png \
+  qt/res/icons/dark/lock_closed.png \
+  qt/res/icons/dark/lock_open.png \
+  qt/res/icons/dark/key.png \
+  qt/res/icons/dark/filesave.png \
+  qt/res/icons/dark/debugwindow.png \
+  qt/res/icons/dark/drkblue_editpaste.png \
+  qt/res/icons/dark/drkblue_address-book.png \
+  qt/res/icons/dark/drkblue_editcopy.png \
+  qt/res/icons/dark/drkblue_remove.png \
+  qt/res/icons/dark/browse.png \
+  qt/res/icons/dark/about.png \
+  qt/res/icons/dark/about_qt.png \
+  qt/res/icons/dark/verify.png \
+  qt/res/icons/dark/hd_enabled.png \
+  qt/res/icons/dark/hd_disabled.png \
+  qt/res/icons/dark/fontbigger.png \
+  qt/res/icons/dark/fontsmaller.png \
+  qt/res/icons/dark/transaction_abandoned.png \
+  qt/res/icons/dark/network_disabled.png  \
+  qt/res/icons/dark/staking_active.png \
+  qt/res/icons/dark/staking_inactive.png
+
+BITCOIN_QT_CPP = \
+  qt/bantablemodel.cpp \
+  qt/bitcoinaddressvalidator.cpp \
+  qt/bitcoinamountfield.cpp \
+  qt/bitcoingui.cpp \
+  qt/bitcoinunits.cpp \
+  qt/clientmodel.cpp \
+  qt/clickablelabel.cpp \
+  qt/csvmodelwriter.cpp \
+  qt/guiutil.cpp \
+  qt/intro.cpp \
+  qt/modaloverlay.cpp \
+  qt/networkstyle.cpp \
+  qt/notificator.cpp \
+  qt/optionsdialog.cpp \
+  qt/optionsmodel.cpp \
+  qt/peertablemodel.cpp \
+  qt/platformstyle.cpp \
+  qt/qvalidatedlineedit.cpp \
+  qt/qvaluecombobox.cpp \
+  qt/rpcconsole.cpp \
+  qt/splashscreen.cpp \
+  qt/trafficgraphdata.cpp \
+  qt/trafficgraphwidget.cpp \
+  qt/utilitydialog.cpp
+
+if TARGET_WINDOWS
+BITCOIN_QT_CPP += qt/winshutdownmonitor.cpp
+endif
+
+if ENABLE_WALLET
+BITCOIN_QT_CPP += \
+  qt/addressbookpage.cpp \
+  qt/addresstablemodel.cpp \
+  qt/askpassphrasedialog.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
+  qt/editaddressdialog.cpp \
+  qt/masternodelist.cpp \
+  qt/openuridialog.cpp \
+  qt/overviewpage.cpp \
+  qt/paymentrequestplus.cpp \
+  qt/paymentserver.cpp \
+  qt/receivecoinsdialog.cpp \
+  qt/receiverequestdialog.cpp \
+  qt/recentrequeststablemodel.cpp \
+  qt/sendcoinsdialog.cpp \
+  qt/sendcoinsentry.cpp \
+  qt/signverifymessagedialog.cpp \
+  qt/transactiondesc.cpp \
+  qt/transactionsdialog.cpp \
+  qt/sposaddressestablemodel.cpp \
+  qt/spospage.cpp \
+  qt/transactiondescdialog.cpp \
+  qt/transactionfilterproxy.cpp \
+  qt/transactionrecord.cpp \
+  qt/transactiontablemodel.cpp \
+  qt/transactionview.cpp \
+  qt/walletframe.cpp \
+  qt/walletmodel.cpp \
+  qt/walletmodeltransaction.cpp \
+  qt/walletview.cpp
+endif
+
+RES_IMAGES = \
+  qt/res/images/qtreeview_selected.png \
+  qt/res/images/walletFrame_bg.png \
+  qt/res/images/walletFrame.png \
+  qt/res/images/pages/send/dark/send-button.png \
+  qt/res/images/pages/send/dark/send-header.png \
+  qt/res/images/pages/send/light/send-header.png \
+  qt/res/images/navigation-buttons/dark/masternodes-activated.png \
+  qt/res/images/navigation-buttons/dark/masternodes-button.png \
+  qt/res/images/navigation-buttons/dark/overview-activated.png \
+  qt/res/images/navigation-buttons/dark/overview-button.png \
+  qt/res/images/navigation-buttons/dark/receive-activated.png \
+  qt/res/images/navigation-buttons/dark/receive-button.png \
+  qt/res/images/navigation-buttons/dark/send-activated.png \
+  qt/res/images/navigation-buttons/dark/send-button.png \
+  qt/res/images/navigation-buttons/dark/stealthmode-activated.png \
+  qt/res/images/navigation-buttons/dark/stealthmode-button.png \
+  qt/res/images/navigation-buttons/dark/transactions-activated.png \
+  qt/res/images/navigation-buttons/dark/transactions-button.png \
+  qt/res/images/navigation-buttons/dark/secure-activated.png \
+  qt/res/images/navigation-buttons/dark/secure-button.png \
+  qt/res/images/pages/overview/dark/overview-header.png \
+  qt/res/images/pages/overview/light/overview-header.png \
+  qt/res/images/pages/transactions/dark/transactions-header.png \
+  qt/res/images/pages/transactions/light/transactions-header.png \
+  qt/res/images/pages/masternodes/dark/masternodes-header.png \
+  qt/res/images/pages/masternodes/light/masternodes-header.png \
+  qt/res/images/pages/receive/dark/receive-header.png \
+  qt/res/images/pages/receive/light/receive-header.png \
+  qt/res/images/pages/stealthmode/dark/exchange.png \
+  qt/res/images/pages/stealthmode/light/exchange.png \
+  qt/res/images/pages/stealthmode/dark/stealth-header.png \
+  qt/res/images/pages/stealthmode/light/stealth-header.png \
+  qt/res/images/pages/secure/dark/secure-header.png \
+  qt/res/images/pages/overview/dark/overview_box.png \
+  qt/res/images/pages/overview/light/overview_box.png \
+  qt/res/images/other/dark/logo_left_testnet.png \
+  qt/res/images/other/dark/splash.png \
+  qt/res/images/navigation-buttons/light/masternodes-activated.png \
+  qt/res/images/navigation-buttons/light/masternodes-button.png \
+  qt/res/images/navigation-buttons/light/overview-activated.png \
+  qt/res/images/navigation-buttons/light/overview-button.png \
+  qt/res/images/navigation-buttons/light/receive-button.png \
+  qt/res/images/navigation-buttons/light/send-activated.png \
+  qt/res/images/navigation-buttons/light/send-button.png \
+  qt/res/images/navigation-buttons/light/stealthmode-activated.png \
+  qt/res/images/navigation-buttons/light/stealthmode-button.png \
+  qt/res/images/navigation-buttons/light/transactions-activated.png \
+  qt/res/images/navigation-buttons/light/transactions-button.png \
+  qt/res/images/other/light/logo_left_testnet.png \
+  qt/res/images/other/light/splash.png \
+  qt/res/images/pages/secure/light/secure-header.png \
+  qt/res/images/navigation-buttons/light/secure-activated.png \
+  qt/res/images/navigation-buttons/light/secure-button.png \
+  qt/res/images/navigation-buttons/light/receive-activated.png \
+  qt/res/images/navigation-buttons/light/spos-activated.png \
+  qt/res/images/navigation-buttons/light/spos-button.png \
+  qt/res/images/navigation-buttons/dark/spos-activated.png \
+  qt/res/images/navigation-buttons/dark/spos-button.png \
+  qt/res/images/pages/spos/dark/spos-header.png \
+  qt/res/images/pages/spos/light/spos-header.png
+
+RES_CSS = \
+  qt/res/css/light.css \
+  qt/res/css/dark.css
+
+RES_MOVIES = \
+    qt/res/movies/spinner-000.png \
+    qt/res/movies/spinner-001.png \
+    qt/res/movies/spinner-002.png \
+    qt/res/movies/spinner-003.png \
+    qt/res/movies/spinner-004.png \
+    qt/res/movies/spinner-005.png \
+    qt/res/movies/spinner-006.png \
+    qt/res/movies/spinner-007.png \
+    qt/res/movies/spinner-008.png \
+    qt/res/movies/spinner-009.png \
+    qt/res/movies/spinner-010.png \
+    qt/res/movies/spinner-011.png \
+    qt/res/movies/spinner-012.png \
+    qt/res/movies/spinner-013.png \
+    qt/res/movies/spinner-014.png \
+    qt/res/movies/spinner-015.png \
+    qt/res/movies/spinner-016.png \
+    qt/res/movies/spinner-017.png \
+    qt/res/movies/spinner-018.png \
+    qt/res/movies/spinner-019.png \
+    qt/res/movies/spinner-020.png \
+    qt/res/movies/spinner-021.png \
+    qt/res/movies/spinner-022.png \
+    qt/res/movies/spinner-023.png \
+    qt/res/movies/spinner-024.png \
+    qt/res/movies/spinner-025.png \
+    qt/res/movies/spinner-026.png \
+    qt/res/movies/spinner-027.png \
+    qt/res/movies/spinner-028.png \
+    qt/res/movies/spinner-029.png \
+    qt/res/movies/spinner-030.png \
+    qt/res/movies/spinner-031.png \
+    qt/res/movies/spinner-032.png \
+    qt/res/movies/spinner-033.png \
+    qt/res/movies/spinner-034.png \
+    qt/res/movies/spinner-035.png
+
+BITCOIN_RC = qt/res/ocide-qt-res.rc
+
+BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
+
+qt_libocideqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_libocideqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_libocideqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_libocideqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES)
+
+nodist_qt_libocideqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+  $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+
+# forms/foo.h -> forms/ui_foo.h
+QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
+
+# Most files will depend on the forms and moc files as includes. Generate them
+# before anything else.
+$(QT_MOC): $(QT_FORMS_H)
+$(qt_libocideqt_a_OBJECTS) $(qt_ocide_qt_OBJECTS) : | $(QT_MOC)
+
+#Generating these with a half-written protobuf header leads to wacky results.
+#This makes sure it's done.
+$(QT_MOC): $(PROTOBUF_H)
+$(QT_MOC_CPP): $(PROTOBUF_H)
+
+# ocide-qt binary #
+qt_ocide_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_ocide_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_ocide_qt_SOURCES = qt/ocide.cpp
+if TARGET_DARWIN
+  qt_ocide_qt_SOURCES += $(BITCOIN_MM)
+endif
+if TARGET_WINDOWS
+  qt_ocide_qt_SOURCES += $(BITCOIN_RC)
+endif
+qt_ocide_qt_LDADD = qt/libocideqt.a $(LIBBITCOIN_SERVER)
+#if ENABLE_WALLET
+qt_ocide_qt_LDADD += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
+#endif
+if ENABLE_ZMQ
+qt_ocide_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+endif
+qt_ocide_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+qt_ocide_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_ocide_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
+
+#locale/foo.ts -> locale/foo.qm
+QT_QM=$(QT_TS:.ts=.qm)
+
+SECONDARY: $(QT_QM)
+
+qt/ocidestrings.cpp: $(libocide_server_a_SOURCES) $(libocide_wallet_a_SOURCES) $(libocide_common_a_SOURCES) $(libocide_zmq_a_SOURCES) $(libocide_consensus_a_SOURCES) $(libocide_util_a_SOURCES)
+	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) ../share/qt/extract_strings_qt.py $^
+
+translate: qt/ocidestrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_CPP) qt/ocide.cpp $(BITCOIN_QT_H) $(BITCOIN_MM)
+	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts qt/locale/ocide_en.ts
+
+$(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
+	@test -f $(RCC)
+	@test -f $(@D)/$(<F) || cp -f $< $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) $(RCCFLAGS) -name ocide_locale $(@D)/$(<F) | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES) $(PROTOBUF_H)
+	@test -f $(RCC)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) $(RCCFLAGS) -name ocide $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+CLEAN_QT = $(nodist_qt_libocideqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
+
+CLEANFILES += $(CLEAN_QT)
+
+ocide_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libocideqt_a_OBJECTS) $(qt_ocide_qt_OBJECTS) qt/ocide-qt$(EXEEXT) $(libocideQT)
+
+ocide_qt : qt/ocide-qt$(EXEEXT)
+
+ui_%.h: %.ui
+	@test -f $(UIC)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(UIC) -o $@ $< || (echo "Error creating $@"; false)
+
+%.moc: %.cpp
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+moc_%.cpp: %.h
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+%.qm: %.ts
+	@test -f $(LRELEASE)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LRELEASE) -silent $< -qm $@

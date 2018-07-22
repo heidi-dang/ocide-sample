@@ -1,0 +1,11 @@
+[Protocol]
+exec=ocide-qt '%u'
+protocol=ocide
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

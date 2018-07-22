@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/ocide_bg.qm</file>
+        <file alias="de">locale/ocide_de.qm</file>
+        <file alias="en">locale/ocide_en.qm</file>
+        <file alias="es">locale/ocide_es.qm</file>
+        <file alias="fi">locale/ocide_fi.qm</file>
+        <file alias="fr">locale/ocide_fr.qm</file>
+        <file alias="it">locale/ocide_it.qm</file>
+        <file alias="ja">locale/ocide_ja.qm</file>
+        <file alias="pl">locale/ocide_pl.qm</file>
+        <file alias="pt">locale/ocide_pt.qm</file>
+        <file alias="ru">locale/ocide_ru.qm</file>
+        <file alias="sk">locale/ocide_sk.qm</file>
+        <file alias="sv">locale/ocide_sv.qm</file>
+        <file alias="vi">locale/ocide_vi.qm</file>
+        <file alias="zh_CN">locale/ocide_zh_CN.qm</file>
+        <file alias="zh_TW">locale/ocide_zh_TW.qm</file>
+    </qresource>
+</RCC>
