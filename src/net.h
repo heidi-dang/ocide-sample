@@ -15,6 +15,7 @@
 #include <limitedmap.h>
 #include <netaddress.h>
 #include <policy/feerate.h>
+#include <primitives/block.h>
 #include <protocol.h>
 #include <random.h>
 #include <streams.h>

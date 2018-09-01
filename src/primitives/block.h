@@ -17,9 +17,17 @@
  * in the block is a special one that creates a new coin owned by the creator
  * of the block.
  */
+
+namespace Consensus {
+    struct Params;
+};
+
+static const int SERIALIZE_BLOCK_LEGACY = 0x04000000;
+
 class CBlockHeader
 {
 public:
+    static const size_t HEADER_SIZE = 4+32+32+4+4+4;  // Excluding Equihash solution
     // header
     int32_t nVersion;
     uint256 hashPrevBlock;
@@ -27,6 +35,8 @@ public:
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
+    uint32_t nHeight;
+    std::vector<unsigned char> nSolution;  // Equihash solution.
 
     CBlockHeader()
     {
@@ -43,6 +53,10 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+        if (!(s.GetVersion() & SERIALIZE_BLOCK_LEGACY)) {
+            READWRITE(nHeight);
+            READWRITE(nSolution);
+        }
     }
 
     void SetNull()
@@ -53,6 +67,8 @@ public:
         nTime = 0;
         nBits = 0;
         nNonce = 0;
+        nHeight = 0;
+        nSolution.clear();
     }
 
     bool IsNull() const
@@ -61,6 +77,7 @@ public:
     }
 
     uint256 GetHash() const;
+    uint256 GetHash(const Consensus::Params& params) const;
 
     int64_t GetBlockTime() const
     {
@@ -89,7 +106,7 @@ public:
     CBlock(const CBlockHeader &header)
     {
         SetNull();
-        *(static_cast<CBlockHeader*>(this)) = header;
+        *((CBlockHeader*)this) = header;
     }
 
     ADD_SERIALIZE_METHODS;
@@ -123,6 +140,8 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
+        block.nHeight        = nHeight;
+        block.nSolution      = nSolution;
         return block;
     }
 
@@ -132,6 +151,31 @@ public:
     bool IsProofOfWork() const;
 
     std::string ToString() const;
+};
+
+/**
+ * Custom serializer for CBlockHeader that omits the nonce and solution, for use
+ * as input to Equihash.
+ */
+class CEquihashInput : private CBlockHeader
+{
+public:
+    CEquihashInput(const CBlockHeader &header)
+    {
+        CBlockHeader::SetNull();
+        *((CBlockHeader*)this) = header;
+    }
+
+    ADD_SERIALIZE_METHODS;
+
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action) {
+        READWRITE(this->nVersion);
+        READWRITE(hashPrevBlock);
+        READWRITE(hashMerkleRoot);
+        READWRITE(nTime);
+        READWRITE(nBits);
+    }
 };
 
 /** Describes a place in the block chain to another node such that if the

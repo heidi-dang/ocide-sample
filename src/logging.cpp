@@ -111,6 +111,7 @@ const CLogCategoryDesc LogCategories[] =
     {BCLog::GOBJECT, "gobject"},
     {BCLog::MNPAYMENTS, "mnpayments"},
     {BCLog::ALL, "1"},
+    {BCLog::POW, "pow"},
     {BCLog::ALL, "all"},
 };
 

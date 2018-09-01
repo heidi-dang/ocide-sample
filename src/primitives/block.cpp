@@ -8,12 +8,25 @@
 #include <hash.h>
 #include <tinyformat.h>
 #include <utilstrencodings.h>
+#include <chainparams.h>
+#include <consensus/params.h>
 #include <crypto/common.h>
+
+uint256 CBlockHeader::GetHash(const Consensus::Params& params) const
+{
+    int version;
+        version = PROTOCOL_VERSION;
+    CHashWriter writer(SER_GETHASH, version);
+    ::Serialize(writer, *this);
+    return writer.GetHash();
+}
 
 uint256 CBlockHeader::GetHash() const
 {
-    return Phi1612(BEGIN(nVersion), END(nNonce));
+    const Consensus::Params& consensusParams = Params().GetConsensus();
+    return GetHash(consensusParams);
 }
+
 
 uint256 CBlock::GetSPoSHash()
 {

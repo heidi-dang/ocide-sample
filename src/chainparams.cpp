@@ -9,7 +9,14 @@
 #include <tinyformat.h>
 #include <util.h>
 #include <utilstrencodings.h>
-#include "arith_uint256.h"
+#include <arith_uint256.h"
+
+#include <crypto/equihash.h>
+#include <net.h>
+#include <validation.h>
+#define equihash_parameters_acceptable(N, K) \
+    ((CBlockHeader::HEADER_SIZE + equihash_solution_size(N, K))*MAX_HEADERS_RESULTS < \
+     MAX_PROTOCOL_MESSAGE_LENGTH-1000)
 
 #include <assert.h>
 
@@ -38,6 +45,7 @@ CreateGenesisBlock(const char *pszTimestamp, const CScript &genesisOutputScript,
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
+    genesis.nHeight  = 0;
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
     return genesis;
 }
@@ -121,14 +129,18 @@ public:
         nDefaultPort = 16969;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1535794699, 966363, 0x1e0ffff0, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetHash();
+/////////////////////////////////////////////////////////////////////// OCIDE
+        const size_t N = 200, K = 9;
+        BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
+        nEquihashN = N;
+        nEquihashK = K;
+////////////////////////////////////////////////////////////////////////
+
+        genesis = CreateGenesisBlock(1535794699, 1708510, 0x1e0ffff0, 1, 50 * COIN);
+        consensus.hashGenesisBlock = genesis.GetHash(consensus);
 
 
-        //LogPrintf("consensus.hashGenesisBlock=%s\n", consensus.hashGenesisBlock.GetHex());
-        //LogPrintf("genesis.hashMerkleRoot=%s\n", genesis.hashMerkleRoot.GetHex())
-
-        assert(consensus.hashGenesisBlock == uint256S("0x000005807f2a217e8a8e55e7a4c0d8406a994c270fb743db9eb5030938aae1df"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000045c26f2707955d216ff500dd0a1f6261eeb6e34d33220656c0ecc69ad5c"));
         assert(genesis.hashMerkleRoot == uint256S("0x33a6139354910d974797e5abdfc4260847ca91fb697fe32a972e0242b1e83909"));
 
         //vBootstrapSeeds.emplace_back("");
@@ -252,9 +264,15 @@ public:
         nDefaultPort = 29999;
         nPruneAfterHeight = 1000;
 
+/////////////////////////////////////////////////////////////////////// OCIDE
+            const size_t N = 200, K = 9;
+            BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
+            nEquihashN = N;
+            nEquihashK = K;
+////////////////////////////////////////////////////////////////////////
 
         genesis = CreateGenesisBlock(1532267514, 0, 0x1e0ffff0, 1, 3000000 * COIN);
-        consensus.hashGenesisBlock = genesis.GetHash();
+        consensus.hashGenesisBlock = genesis.GetHash(consensus);
 
 
         vFixedSeeds.clear();
@@ -360,9 +378,15 @@ public:
         nDefaultPort = 29999;
         nPruneAfterHeight = 1000;
 
+/////////////////////////////////////////////////////////////////////// OCIDE
+            const size_t N = 200, K = 9;
+            BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
+            nEquihashN = N;
+            nEquihashK = K;
+////////////////////////////////////////////////////////////////////////
 
         genesis = CreateGenesisBlock(1532267514, 0, 0x1e0ffff0, 1, 3000000 * COIN);
-        consensus.hashGenesisBlock = genesis.GetHash();
+        consensus.hashGenesisBlock = genesis.GetHash(consensus);
 
 
         //vBootstrapSeeds.emplace_back("");

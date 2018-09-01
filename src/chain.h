@@ -227,11 +227,12 @@ public:
     int64_t nMoneySupply;
 
     //! block header
-    int32_t nVersion;
+    int nVersion;
     uint256 hashMerkleRoot;
-    uint32_t nTime;
-    uint32_t nBits;
-    uint32_t nNonce;
+    unsigned int nTime;
+    unsigned int nBits;
+    unsigned int nNonce;
+    std::vector<unsigned char> nSolution;
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId;
@@ -268,6 +269,7 @@ public:
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
+        nSolution.clear();
     }
 
     CBlockIndex()
@@ -284,6 +286,8 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
+        // Should be good or not without nHeight?
+        nSolution      = block.nSolution;
 
         //Proof of Stake
         bnChainTrust = uint256();
@@ -332,6 +336,8 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
+        block.nHeight        = nHeight;
+        block.nSolution      = nSolution;
         return block;
     }
 
@@ -502,6 +508,7 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+        READWRITE(nSolution);
     }
 
     uint256 GetBlockHash() const
@@ -513,6 +520,8 @@ public:
         block.nTime           = nTime;
         block.nBits           = nBits;
         block.nNonce          = nNonce;
+        block.nHeight         = nHeight;
+        block.nSolution       = nSolution;
         return block.GetHash();
     }
 

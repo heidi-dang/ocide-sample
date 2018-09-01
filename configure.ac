@@ -1096,6 +1096,8 @@ AC_SUBST(UNIVALUE_LIBS)
 
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
+LIBEQUIHASH_LIBS="-lcrypto -lsodium"
+
 AC_MSG_CHECKING([whether to build ocided])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_ocided = xyes])
 AC_MSG_RESULT($build_ocided)
@@ -1296,6 +1298,7 @@ AC_SUBST(SSL_LIBS)
 AC_SUBST(EVENT_LIBS)
 AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_SUBST(ZMQ_LIBS)
+AC_SUBST(LIBEQUIHASH_LIBS)
 AC_SUBST(PROTOBUF_LIBS)
 AC_SUBST(QR_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile doc/man/Makefile share/setup.nsi share/qt/Info.plist test/config.ini])

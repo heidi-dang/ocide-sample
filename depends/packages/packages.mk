@@ -1,4 +1,6 @@
-packages:=boost openssl libevent zeromq
+equihash_packages := libsodium
+packages:=boost openssl libevent zeromq $(equihash_packages)
+native_packages := native_ccache
 
 qt_native_packages = native_protobuf
 qt_packages = qrencode protobuf zlib
