@@ -9,6 +9,7 @@
 #include <tinyformat.h>
 #include <util.h>
 #include <utilstrencodings.h>
+#include "arith_uint256.h"
 
 #include <assert.h>
 
@@ -22,9 +23,11 @@ CreateGenesisBlock(const char *pszTimestamp, const CScript &genesisOutputScript,
     txNew.vin.resize(1);
     txNew.vout.resize(1);
     txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4)
-                                       << std::vector<unsigned char>((const unsigned char *) pszTimestamp,
-                                                                     (const unsigned char *) pszTimestamp +
-                                                                     strlen(pszTimestamp));
+                                       << std::vector<unsigned char>
+                                       ((const unsigned char *) pszTimestamp,
+                                       (const unsigned char *) pszTimestamp +
+                                       strlen(pszTimestamp));
+
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
 
@@ -41,7 +44,7 @@ CreateGenesisBlock(const char *pszTimestamp, const CScript &genesisOutputScript,
 
 static CBlock
 CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount &genesisReward) {
-    const char *pszTimestamp = "July 24 2018 OCide launched";
+    const char *pszTimestamp = "August 2018 OCide is on it own testnet";
     const CScript genesisOutputScript = CScript() << ParseHex("0") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -118,12 +121,15 @@ public:
         nDefaultPort = 16969;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1532267514, 0, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1535794699, 966363, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
 
-        //assert(consensus.hashGenesisBlock == uint256S("0"));
-        //assert(genesis.hashMerkleRoot == uint256S("0"));
+        //LogPrintf("consensus.hashGenesisBlock=%s\n", consensus.hashGenesisBlock.GetHex());
+        //LogPrintf("genesis.hashMerkleRoot=%s\n", genesis.hashMerkleRoot.GetHex())
+
+        assert(consensus.hashGenesisBlock == uint256S("0x000005807f2a217e8a8e55e7a4c0d8406a994c270fb743db9eb5030938aae1df"));
+        assert(genesis.hashMerkleRoot == uint256S("0x33a6139354910d974797e5abdfc4260847ca91fb697fe32a972e0242b1e83909"));
 
         //vBootstrapSeeds.emplace_back("");
         //vSeeds.emplace_back("");
