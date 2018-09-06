@@ -44,7 +44,7 @@ CreateGenesisBlock(const char *pszTimestamp, const CScript &genesisOutputScript,
 
 static CBlock
 CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount &genesisReward) {
-    const char *pszTimestamp = "August 2018 OCide is on it own testnet";
+    const char *pszTimestamp = "August 2018 OCide is on it own testnet 1";
     const CScript genesisOutputScript = CScript() << ParseHex("0") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -86,7 +86,7 @@ public:
         consensus.nStakeMinAge = 60 * 60;
         consensus.nStakeMaxAge = 60 * 60 * 24; // one day
         consensus.nCoinbaseMaturity = 20;
-        consensus.nSPoSContractSignatureDeploymentTime = 1532267514;
+        consensus.nSPoSContractSignatureDeploymentTime = 1536247401;
         consensus.nLastPoWBlock = 10000000;
         consensus.nPowKGWHeight = 100000;
         consensus.nPowDGWHeight = 500;
@@ -121,15 +121,12 @@ public:
         nDefaultPort = 16969;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1535794699, 966363, 0x1e0ffff0, 1, 0);
+        genesis = CreateGenesisBlock(1536247401, 89451, 0x1e0ffff0, 1, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
 
 
-        //LogPrintf("consensus.hashGenesisBlock=%s\n", consensus.hashGenesisBlock.GetHex());
-        //LogPrintf("genesis.hashMerkleRoot=%s\n", genesis.hashMerkleRoot.GetHex())
-
-        assert(consensus.hashGenesisBlock == uint256S("0x000005807f2a217e8a8e55e7a4c0d8406a994c270fb743db9eb5030938aae1df"));
-        assert(genesis.hashMerkleRoot == uint256S("0x33a6139354910d974797e5abdfc4260847ca91fb697fe32a972e0242b1e83909"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000005ccb947b57683e473a99938da312cb601d7a7c086d0989cce178b3cedb"));
+        assert(genesis.hashMerkleRoot == uint256S("0x1a3a40c20844051f528c45bbf23ac5e80c7fbfdc221911ee526aaf10aee98583"));
 
         //vBootstrapSeeds.emplace_back("");
         //vSeeds.emplace_back("");
