@@ -1142,22 +1142,23 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 CAmount GetBlockSubsidy(int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
     if(nPrevHeight == 1) {
-        return 1000000 * COIN;
+        return 1300000 * COIN;
     }
 
     if(nPrevHeight < consensusParams.nFirstBlocksEmpty)
         return 0;
 
-    CAmount nSubsidy = 10;
+    CAmount nSubsidy = 12.5 * COIN;
 
-    for (int i = consensusParams.nSubsidyHalvingInterval + consensusParams.nFirstBlocksEmpty; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
-        nSubsidy -= 5;
-        if(nSubsidy <= 20) {
-            break;
-        }
+    if (nPrevHeight >= 1 && nPrevHeight < 200) {
+        nSubsidy = 1.25 * COIN;
+    } else if (nPrevHeight >= 200 && nPrevHeight < 400) {
+        nSubsidy = 2.5 * COIN;
+    } else if (nPrevHeight >= 400 && nPrevHeight < 600) {
+        nSubsidy = 5 * COIN;
+    } else if (nPrevHeight >= 600 && nPrevHeight < 800) {
+        nSubsidy = 10 * COIN;
     }
-
-    nSubsidy = std::max<CAmount>(nSubsidy, 20) * COIN;
 
     CAmount nSuperblockPart = (nPrevHeight > consensusParams.nBudgetPaymentsStartBlock) ? nSubsidy / 10 : 0;
 
@@ -1169,7 +1170,7 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
     (void)nHeight;
 
     // half of the block for now
-    return blockValue / 2;
+    return blockValue / 10;
 }
 
 bool IsInitialBlockDownload()

@@ -78,8 +78,8 @@ public:
         consensus.BIP66Height = consensus.nLastPoWBlock;
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // OCIDE: 1 day
-        consensus.nPowTargetSpacing = 1 * 60; // OCIDE: 1 minutes
-        consensus.nPosTargetSpacing = 1 * 60; // OCIDE: 1 minutes
+        consensus.nPowTargetSpacing = 2 * 60; // OCIDE: 2 minutes
+        consensus.nPosTargetSpacing = 2 * 60; // OCIDE: 2 minutes
         consensus.nPosTargetTimespan = 60 * 40;
         consensus.nSecurenodeMinimumConfirmations = 1;
         consensus.nMasternodeMinimumConfirmations = 15;
@@ -121,7 +121,7 @@ public:
         nDefaultPort = 16969;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1535794699, 966363, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1535794699, 966363, 0x1e0ffff0, 1, 0);
         consensus.hashGenesisBlock = genesis.GetHash();
 
 
